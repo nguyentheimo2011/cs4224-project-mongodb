@@ -3,6 +3,8 @@ import argparse
 
 
 def prepare_data():
+    next_delivery_order_ids = prepare_next_delivery_order_id_for_districts()
+
     original_warehouse_file_path = os.path.join(original_data_directory, 'warehouse.csv')
     original_district_file_path = os.path.join(original_data_directory, 'district.csv')
     prepared_warehouse_file_path = os.path.join(destination_directory, 'warehouse.json')
@@ -39,10 +41,40 @@ def prepare_data():
                         district_obj['d_tax'] = float(district_attributes[8])
                         district_obj['d_ytd'] = float(district_attributes[9])
                         district_obj['d_next_o_id'] = int(district_attributes[10])
+                        district_obj['d_next_delivery_o_id'] = next_delivery_order_ids[district_obj['d_w_num']][
+                            district_obj['d_num']
+                        ]
                         warehouse_obj['w_districts'].append(district_obj)
 
                 r_f.write(str(warehouse_obj) + '\n')
 
+
+def prepare_next_delivery_order_id_for_districts():
+    num_warehouses = 0
+    original_warehouse_file_path = os.path.join(original_data_directory, 'warehouse.csv')
+    with open(original_warehouse_file_path) as f:
+        for line in f:
+            num_warehouses += 1
+
+    original_order_file_path = os.path.join(original_data_directory, 'order.csv')
+    next_delivery_order_ids = {}
+
+    for i in range(1, num_warehouses + 1):
+        next_delivery_order_ids[i] = {}
+
+    with open(original_order_file_path) as f:
+        for line in f:
+            order_attributes = line.replace('\n', '').split(',')
+            warehouse_id = int(order_attributes[0])
+            district_id = int(order_attributes[1])
+            order_id = int(order_attributes[2])
+            carrier_id = order_attributes[4]
+            if carrier_id == 'null':
+                last_order_id_in_district = next_delivery_order_ids.get(warehouse_id).get(district_id, None)
+                if last_order_id_in_district is None or last_order_id_in_district > order_id:
+                    next_delivery_order_ids[warehouse_id][district_id] = order_id
+
+    return next_delivery_order_ids
 
 
 if __name__ == '__main__':
