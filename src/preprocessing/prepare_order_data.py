@@ -1,5 +1,6 @@
 import os
 import argparse
+from datetime import datetime
 
 
 def prepare_data():
@@ -9,6 +10,7 @@ def prepare_data():
     prepared_order_file_path = os.path.join(destination_directory, 'order.json')
     with open(prepared_order_file_path, 'w') as p_f:
         with open(original_order_file_path) as o_f:
+            count = 0
             for o_line in o_f:
                 order_obj = {}
                 order_attributes = o_line.replace('\n', '').split(',')
@@ -26,10 +28,14 @@ def prepare_data():
                     order_obj['o_carrier_id'] = int(order_attributes[4])
 
                 order_obj['o_all_local'] = int(order_attributes[6])
-                order_obj['o_entry_d'] = order_attributes[7]
+                order_obj['o_entry_d'] = {'$date': convert_datetime_to_unix_time(order_attributes[7])}
 
                 stringified_order = str(order_obj).replace('None', 'null')
-                p_f.write(stringified_order)
+                p_f.write(stringified_order + '\n')
+
+                count += 1
+                if count % 1000 == 0:
+                    print 'Complete processing {} lines'.format(count)
 
 
 def prepare_customer_info():
@@ -55,6 +61,15 @@ def prepare_customer_info():
                         'c_last': customer_attributes[5]}
             customer_map[warehouse_id][district_id][customer_id] = customer
     return customer_map
+
+
+def convert_datetime_to_unix_time(date_time_str):
+    date_time_components = date_time_str.split('.')
+    date_time_str = date_time_components[0]
+    miliseconds = int(date_time_components[1])
+    unix_time = int(datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S').strftime('%s'))
+    unix_time_in_milliseconds = 1000 * unix_time + miliseconds
+    return unix_time_in_milliseconds
 
 
 if __name__ == '__main__':
