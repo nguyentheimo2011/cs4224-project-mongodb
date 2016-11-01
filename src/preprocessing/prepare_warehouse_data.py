@@ -8,7 +8,7 @@ def prepare_data():
     original_warehouse_file_path = os.path.join(original_data_directory, 'warehouse.csv')
     original_district_file_path = os.path.join(original_data_directory, 'district.csv')
     prepared_warehouse_file_path = os.path.join(destination_directory, 'warehouse.json')
-    with open(prepared_warehouse_file_path, 'w') as r_f:
+    with open(prepared_warehouse_file_path, 'w') as p_f:
         with open(original_warehouse_file_path) as w_f:
             for w_line in w_f:
                 warehouse_obj = {}
@@ -46,7 +46,7 @@ def prepare_data():
                         ]
                         warehouse_obj['w_districts'].append(district_obj)
 
-                r_f.write(str(warehouse_obj) + '\n')
+                p_f.write(str(warehouse_obj) + '\n')
 
 
 def prepare_next_delivery_order_id_for_districts():
