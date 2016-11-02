@@ -30,7 +30,6 @@ def prepare_data():
                         if district_attributes[0] != warehouse_attributes[0]:
                             continue
                         district_obj = {}
-                        district_obj['d_w_num'] = int(district_attributes[0])
                         district_obj['d_num'] = int(district_attributes[1])
                         district_obj['d_name'] = district_attributes[2]
                         district_obj['d_street_1'] = district_attributes[3]
@@ -41,7 +40,7 @@ def prepare_data():
                         district_obj['d_tax'] = float(district_attributes[8])
                         district_obj['d_ytd'] = float(district_attributes[9])
                         district_obj['d_next_o_id'] = int(district_attributes[10])
-                        district_obj['d_next_delivery_o_id'] = next_delivery_order_ids[district_obj['d_w_num']][
+                        district_obj['d_next_delivery_o_id'] = next_delivery_order_ids[warehouse_obj['w_num']][
                             district_obj['d_num']
                         ]
                         warehouse_obj['w_districts'].append(district_obj)
