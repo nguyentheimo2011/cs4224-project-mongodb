@@ -5,7 +5,7 @@ from datetime import datetime
 
 def prepare_data():
     customer_map = prepare_customer_info()
-    order_line_map = prepare_order_line_info()
+    order_line_map = prepare_order_line_data()
 
     original_order_file_path = os.path.join(original_data_directory, 'order.csv')
     prepared_order_file_path = os.path.join(destination_directory, 'order.json')
@@ -68,7 +68,7 @@ def prepare_customer_info():
     return customer_map
 
 
-def prepare_order_line_info():
+def prepare_order_line_data():
     """
     Organize order lines in order to efficiently retrieving data
     """
