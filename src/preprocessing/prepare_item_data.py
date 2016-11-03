@@ -57,7 +57,7 @@ def prepare_stock_data():
             stock_obj['s_dist_09'] = stock_attributes[14]
             stock_obj['s_dist_10'] = stock_attributes[15]
             stock_obj['s_data'] = stock_attributes[16]
-            stock_map[item_id][warehouse_id] = stock_obj
+            stock_map[item_id][str(warehouse_id)] = stock_obj
     print 'Finish preparing Stock data'
     return stock_map
 
