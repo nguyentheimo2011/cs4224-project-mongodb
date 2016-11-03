@@ -22,7 +22,7 @@ def prepare_data():
                 warehouse_obj['w_zip'] = warehouse_attributes[6]
                 warehouse_obj['w_tax'] = float(warehouse_attributes[7])
                 warehouse_obj['w_ytd'] = float(warehouse_attributes[8])
-                warehouse_obj['w_districts'] = []
+                warehouse_obj['w_districts'] = {}
 
                 with open(original_district_file_path) as d_f:
                     for d_line in d_f:
@@ -30,7 +30,7 @@ def prepare_data():
                         if district_attributes[0] != warehouse_attributes[0]:
                             continue
                         district_obj = {}
-                        district_obj['d_num'] = int(district_attributes[1])
+                        district_number = int(district_attributes[1])
                         district_obj['d_name'] = district_attributes[2]
                         district_obj['d_street_1'] = district_attributes[3]
                         district_obj['d_street_2'] = district_attributes[4]
@@ -41,9 +41,9 @@ def prepare_data():
                         district_obj['d_ytd'] = float(district_attributes[9])
                         district_obj['d_next_o_id'] = int(district_attributes[10])
                         district_obj['d_next_delivery_o_id'] = next_delivery_order_ids[warehouse_obj['w_num']][
-                            district_obj['d_num']
+                            district_number
                         ]
-                        warehouse_obj['w_districts'].append(district_obj)
+                        warehouse_obj['w_districts'][str(district_number)] = district_obj
 
                 p_f.write(str(warehouse_obj) + '\n')
 
