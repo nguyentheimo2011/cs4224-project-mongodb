@@ -12,8 +12,6 @@ import new_order_transaction_processing
 def run_multiple_transaction_sets_with_multiple_clients():
     client = MongoClient('192.168.51.9', 27017)
     database = client['wholesale_supplier']
-    # orders = database['order']
-    # print orders.find_one()
 
     threads = [None] * num_clients
     running_results = [None] * num_clients
@@ -51,9 +49,11 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
                 for j in range(i+1, i+num_of_items+1, 1):
                     item_line = lines[j].replace('\n', '')
                     order_line_list.append(item_line.split(','))
-                # output = new_order_transaction.new_order_transaction(database_session, trans_input_values[1],
-                    # trans_input_values[2], trans_input_values[3],
-                #                                                     trans_input_values[4], order_line_list)
+                output = new_order_transaction_processing.new_order_transaction(database, trans_input_values[1],
+                                                                                trans_input_values[2],
+                                                                                trans_input_values[3],
+                                                                                trans_input_values[4],
+                                                                                order_line_list)
             elif trans_input_values[0] == 'P':
                 print 'Payment Transaction'
             elif trans_input_values[0] == 'D':
