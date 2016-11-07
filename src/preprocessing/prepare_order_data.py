@@ -5,7 +5,7 @@ from datetime import datetime
 
 def prepare_data():
     customer_map = prepare_customer_info()
-    order_line_map = prepare_order_line_data()
+    order_line_map = prepare_order_line_info()
 
     original_order_file_path = os.path.join(original_data_directory, 'order.csv')
     prepared_order_file_path = os.path.join(destination_directory, 'order.json')
@@ -37,8 +37,8 @@ def prepare_data():
                 p_f.write(stringified_order + '\n')
 
                 count += 1
-                # if count % 1000 == 0:
-                print 'Complete processing {} lines in Order file'.format(count)
+                if count % 50000 == 0:
+                    print 'Complete processing {} lines in Order file'.format(count)
 
 
 def prepare_customer_info():
@@ -68,7 +68,7 @@ def prepare_customer_info():
     return customer_map
 
 
-def prepare_order_line_data():
+def prepare_order_line_info():
     """
     Organize order lines in order to efficiently retrieving data
     """

@@ -24,7 +24,8 @@ def prepare_data():
                 p_f.write(str(item_obj) + '\n')
 
                 count += 1
-                print 'Complete processing {} lines in Item file'.format(count)
+                if count % 50000 == 0:
+                    print 'Complete processing {} lines in Item file'.format(count)
 
 
 def prepare_stock_data():
