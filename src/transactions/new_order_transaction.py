@@ -63,7 +63,7 @@ def new_order_transaction(db, c_id, w_id, d_id, num_items, order_line_list):
             'ol_number': item_count,
             'ol_i_num': int(item_id),
             'ol_i_name': item['i_name'],
-            'ol_supply_w_id': int(supply_warehouse_id),
+            'ol_supply_w_num': int(supply_warehouse_id),
             'ol_quantity': int(quantity),
             'ol_amount': item_amount,
             'ol_delivery_d': 0,

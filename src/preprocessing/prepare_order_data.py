@@ -61,7 +61,7 @@ def prepare_customer_info():
                 customer_map[warehouse_id][district_id] = {}
 
             customer_id = int(customer_attributes[2])
-            customer = {'c_num': customer_id, 
+            customer = {'c_num': customer_id,
                         'c_first': customer_attributes[3],
                         'c_middle': customer_attributes[4],
                         'c_last': customer_attributes[5]}
