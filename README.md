@@ -32,3 +32,6 @@ Or run the **load_data.sh** script for pre-processing all data and saving to /pr
 ```
 
 ## Run transactions
+```
+python src/driver/main_driver.py -c ${num_client} -p ${transaction folder}
+```

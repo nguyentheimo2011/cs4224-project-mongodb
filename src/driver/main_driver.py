@@ -3,15 +3,42 @@ import sys
 import argparse
 from threading import Thread
 
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING, ASCENDING
 
 sys.path.append('../transactions')
-import new_order_transaction_processing
+sys.path.append('transactions')
+sys.path.append('src/transactions')
+
+import delivery_transaction
+import new_order_transaction
+import order_status_transaction
+import payment_transaction
+import popular_item_transaction
+import stock_level_transaction
+import top_balance_transaction
+
+
+def make_sure_indexes(database):
+    print "********* Ensuring indexes ***********"
+    print "*********** This may take a bit time if the indexes are not created ***********"
+    database.warehouse.ensure_index('w_name')
+
+    database.customer.ensure_index([('c_w_num', ASCENDING), ("c_d_num", ASCENDING), ("c_num", ASCENDING)])
+    database.customer.ensure_index([('c_balance', DESCENDING)])
+
+    database.item.ensure_index('i_num')
+
+    database.order.ensure_index([('o_w_num', ASCENDING), ("o_d_num", ASCENDING), ("o_customer.c_num", ASCENDING), ("o_num", ASCENDING)])
+    database.order.ensure_index([('o_w_num', ASCENDING), ("o_d_num", ASCENDING), ("o_num", ASCENDING)])
+
+    print "********* Done ensuring indexes ***********"
 
 
 def run_multiple_transaction_sets_with_multiple_clients():
-    client = MongoClient('192.168.51.9', 27017)
+    client = MongoClient('192.168.51.8', 27017)
     database = client['wholesale_supplier']
+
+    make_sure_indexes(database)
 
     threads = [None] * num_clients
     running_results = [None] * num_clients
@@ -38,34 +65,30 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
         start_time = time.time()
         for (i, line) in enumerate(lines):
             total_num_of_transactions += 1
-
-            trans_input_values = line.replace('\n', '').split(',')
-
+            values = line.replace('\n', '').split(',')
             output = None
 
-            if trans_input_values[0] == 'N':
+            if values[0] == 'N':
                 order_line_list = []
-                num_of_items = int(trans_input_values[4])
+                num_of_items = int(values[4])
                 for j in range(i+1, i+num_of_items+1, 1):
                     item_line = lines[j].replace('\n', '')
                     order_line_list.append(item_line.split(','))
-                output = new_order_transaction_processing.new_order_transaction(database, trans_input_values[1],
-                                                                                trans_input_values[2],
-                                                                                trans_input_values[3],
-                                                                                trans_input_values[4],
-                                                                                order_line_list)
-            elif trans_input_values[0] == 'P':
-                print 'Payment Transaction'
-            elif trans_input_values[0] == 'D':
-                print 'Delivery Transaction'
-            elif trans_input_values[0] == 'O':
-                print 'Order Status Transaction'
-            elif trans_input_values[0] == 'S':
-                print 'Stock Level Transaction'
-            elif trans_input_values[0] == 'I':
-                print 'Popular Item Transaction'
-            elif trans_input_values[0] == 'T':
-                print 'Top Balance Transaction'
+                output = new_order_transaction.new_order_transaction(database, values[1], values[2], values[3],
+                                                                     values[4], order_line_list)
+            elif values[0] == 'P':
+                output = payment_transaction.payment_transaction(database, values[1], values[2], values[3],
+                                                                 values[4])
+            elif values[0] == 'D':
+                output = delivery_transaction.delivery_transaction(database, values[1], values[2])
+            elif values[0] == 'O':
+                output = order_status_transaction.order_status_transaction(database, values[1], values[2], values[3])
+            elif values[0] == 'S':
+                output = stock_level_transaction.stock_level_transaction(database, values[1], values[2], values[3], values[4])
+            elif values[0] == 'I':
+                output = popular_item_transaction.popular_item_transaction(database, values[1], values[2], values[3])
+            elif values[0] == 'T':
+                output = top_balance_transaction.top_balance_transaction(database)
             else:
                 total_num_of_transactions -= 1
                 continue
