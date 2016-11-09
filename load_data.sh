@@ -13,7 +13,7 @@ if [ -n "$source_dir" ]; then
     do
         echo "Start importing $collection !"
         source_file="$source_dir/$collection.json"
-        mongoimport -h $database --db wholesale_supplier --collection $collection --drop --file $source_file
+        ../mongodb/bin/mongoimport -h $database --db wholesale_supplier --collection $collection --drop --file $source_file
         echo "Done importing $collection !"
         echo "------------------------------------------------------------------"
     done

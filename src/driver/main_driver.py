@@ -94,9 +94,6 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
                 total_num_of_transactions -= 1
                 continue
 
-            if total_num_of_transactions == 100:
-                break
-
             text = "\nClient: {0}   Transaction: {1}\n".format(thread_id, line.replace('\n', ''))
             text += str(output) + '\n'
             sys.stderr.write(text)
@@ -123,9 +120,10 @@ def write_benchmarking_results_to_file(results):
         total_throughput = 0.0
         for client in results:
             result_file.write(str(client) + '\n')
-            min_throughput = min(min_throughput, client['throughput'])
-            max_throughput = max(max_throughput, client['throughput'])
-            total_throughput += client['throughput']
+            if client != None:
+                min_throughput = min(min_throughput, client['throughput'])
+                max_throughput = max(max_throughput, client['throughput'])
+                total_throughput += client['throughput']
 
         stats_text = ""
         stats_text += 'Min. Throughput: {0} (trans/sec)\n'.format(min_throughput)

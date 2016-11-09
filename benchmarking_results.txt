@@ -1,7 +1,15 @@
 -----------------------------------------------------
-Number of clients: 2
-{'elapsed_time': 21.591627836227417, 'thread_id': 0, 'throughput': 4.631424770679654, 'transactions': 100}
-{'elapsed_time': 22.026127099990845, 'thread_id': 1, 'throughput': 4.540062787526617, 'transactions': 100}
-Min. Throughput: 4.54006278753 (trans/sec)
-Max. Throughput: 4.63142477068 (trans/sec)
-Avg. Throughput: 4.5857437791 (trans/sec)
+Number of clients: 10
+{'elapsed_time': 71.87371397018433, 'thread_id': 0, 'throughput': 1.3913292423080212, 'transactions': 100}
+{'elapsed_time': 71.41294002532959, 'thread_id': 1, 'throughput': 1.4003064425653224, 'transactions': 100}
+{'elapsed_time': 59.964178800582886, 'thread_id': 2, 'throughput': 1.6676622943934645, 'transactions': 100}
+{'elapsed_time': 75.32615208625793, 'thread_id': 3, 'throughput': 1.3275601797034235, 'transactions': 100}
+{'elapsed_time': 64.84738302230835, 'thread_id': 4, 'throughput': 1.542082275943174, 'transactions': 100}
+None
+None
+None
+{'elapsed_time': 54.23823690414429, 'thread_id': 8, 'throughput': 1.8437177479926363, 'transactions': 100}
+{'elapsed_time': 74.47419691085815, 'thread_id': 9, 'throughput': 1.3427469398521334, 'transactions': 100}
+Min. Throughput: 1.3275601797 (trans/sec)
+Max. Throughput: 1.84371774799 (trans/sec)
+Avg. Throughput: 1.05154051228 (trans/sec)
