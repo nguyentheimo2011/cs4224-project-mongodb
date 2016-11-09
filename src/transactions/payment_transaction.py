@@ -10,7 +10,7 @@ def payment_transaction(db, w_id, d_id, c_id, payment):
 
     warehouse = db.warehouse.find_one_and_update(
         {'w_num': w_id},
-        {'$inc': {'w_ytd': payment, (str(d_id)+'.d_ytd'): payment}},
+        {'$inc': {'w_ytd': payment, ('w_districts.'+str(d_id)+'.d_ytd'): payment}},
         return_document=ReturnDocument.AFTER
     )
     customer = db.customer.find_one_and_update(

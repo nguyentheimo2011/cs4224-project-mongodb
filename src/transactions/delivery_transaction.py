@@ -7,14 +7,14 @@ def delivery_transaction(db, w_id, carrier_id):
 
     # Warehouse
     warehouse = db.warehouse.find_one({'w_num': w_id})
-    update_warehouse = {'w_districts': {}}
+    update_warehouse = {}
 
     for d_id in range(1, 11, 1):
         district = warehouse['w_districts'][str(d_id)]
         next_o_id = district['d_next_delivery_o_id']
 
         # UPDATE warehouse next_delivery_o_id
-        update_warehouse['w_districts'][str(d_id)] = {'d_next_delivery_o_id': next_o_id+1}
+        update_warehouse['w_districts.'+str(d_id)+'d_next_delivery_o_id'] = next_o_id+1
 
         # UPDATE order + orderlines
         update_order = {}

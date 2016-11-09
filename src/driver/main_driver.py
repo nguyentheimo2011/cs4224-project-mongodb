@@ -17,10 +17,11 @@ import popular_item_transaction
 import stock_level_transaction
 import top_balance_transaction
 
+global output_file
 
 def make_sure_indexes(database):
-    print "********* Ensuring indexes ***********"
-    print "*********** This may take a bit time if the indexes are not created ***********"
+    sys.stderr.write( "********* Ensuring indexes ***********\n" )
+    sys.stderr.write( "*********** This may take a bit time if the indexes are not created ***********\n" )
     database.warehouse.ensure_index('w_name')
 
     database.customer.ensure_index([('c_w_num', ASCENDING), ("c_d_num", ASCENDING), ("c_num", ASCENDING)])
@@ -31,7 +32,7 @@ def make_sure_indexes(database):
     database.order.ensure_index([('o_w_num', ASCENDING), ("o_d_num", ASCENDING), ("o_customer.c_num", ASCENDING), ("o_num", ASCENDING)])
     database.order.ensure_index([('o_w_num', ASCENDING), ("o_d_num", ASCENDING), ("o_num", ASCENDING)])
 
-    print "********* Done ensuring indexes ***********"
+    sys.stderr.write( "********* Done ensuring indexes ***********\n" )
 
 
 def run_multiple_transaction_sets_with_multiple_clients():
@@ -93,7 +94,7 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
                 total_num_of_transactions -= 1
                 continue
 
-            if total_num_of_transactions == 1000:
+            if total_num_of_transactions == 100:
                 break
 
             text = "\nClient: {0}   Transaction: {1}\n".format(thread_id, line.replace('\n', ''))
@@ -112,7 +113,7 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
 
 
 def write_benchmarking_results_to_file(results):
-    file_name = "benchmarking_results.txt"
+    file_name = output_file or "benchmarking_results.txt"
     with open(file_name, 'w') as result_file:
         result_file.write('-----------------------------------------------------\n')
         result_file.write('Number of clients: {0}\n'.format(num_clients))
@@ -140,8 +141,12 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument("-c", "--clients", required=True, help="Number of clients issuing transactions")
     ap.add_argument("-p", "--path", required=True, help="Path to the directory containing transaction files")
+    ap.add_argument("-o", "--output", required=False, help="Specific output file")
     args = vars(ap.parse_args())
     num_clients = int(args['clients'])
     trans_dir_path = args['path']
+
+    global output_file
+    output_file = args['output']
 
     run_multiple_transaction_sets_with_multiple_clients()
