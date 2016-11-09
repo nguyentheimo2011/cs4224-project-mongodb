@@ -69,34 +69,42 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
             values = line.replace('\n', '').split(',')
             output = None
 
-            if values[0] == 'N':
-                order_line_list = []
-                num_of_items = int(values[4])
-                for j in range(i+1, i+num_of_items+1, 1):
-                    item_line = lines[j].replace('\n', '')
-                    order_line_list.append(item_line.split(','))
-                output = new_order_transaction.new_order_transaction(database, values[1], values[2], values[3],
-                                                                     values[4], order_line_list)
-            elif values[0] == 'P':
-                output = payment_transaction.payment_transaction(database, values[1], values[2], values[3],
-                                                                 values[4])
-            elif values[0] == 'D':
-                output = delivery_transaction.delivery_transaction(database, values[1], values[2])
-            elif values[0] == 'O':
-                output = order_status_transaction.order_status_transaction(database, values[1], values[2], values[3])
-            elif values[0] == 'S':
-                output = stock_level_transaction.stock_level_transaction(database, values[1], values[2], values[3], values[4])
-            elif values[0] == 'I':
-                output = popular_item_transaction.popular_item_transaction(database, values[1], values[2], values[3])
-            elif values[0] == 'T':
-                output = top_balance_transaction.top_balance_transaction(database)
-            else:
-                total_num_of_transactions -= 1
-                continue
+            try:
+                if values[0] == 'N':
+                    order_line_list = []
+                    num_of_items = int(values[4])
+                    for j in range(i+1, i+num_of_items+1, 1):
+                        item_line = lines[j].replace('\n', '')
+                        order_line_list.append(item_line.split(','))
+                        output = new_order_transaction.new_order_transaction(database, values[1], values[2], values[3],
+                                                                            values[4], order_line_list)
+                elif values[0] == 'P':
+                    output = payment_transaction.payment_transaction(database, values[1], values[2], values[3],
+                                                                     values[4])
+                elif values[0] == 'D':
+                    output = delivery_transaction.delivery_transaction(database, values[1], values[2])
+                elif values[0] == 'O':
+                    output = order_status_transaction.order_status_transaction(database, values[1], values[2], values[3])
+                elif values[0] == 'S':
+                    output = stock_level_transaction.stock_level_transaction(database, values[1], values[2], values[3], values[4])
+                elif values[0] == 'I':
+                    output = popular_item_transaction.popular_item_transaction(database, values[1], values[2], values[3])
+                elif values[0] == 'T':
+                    output = top_balance_transaction.top_balance_transaction(database)
+                else:
+                    total_num_of_transactions -= 1
+                    continue
+            except Exception as e:
+                with open("error.txt", "a") as error_log:
+                    error_log.write(str(e)+"\n")
 
             text = "\nClient: {0}   Transaction: {1}\n".format(thread_id, line.replace('\n', ''))
             text += str(output) + '\n'
             sys.stderr.write(text)
+
+            # Break condition if taking too long
+            if total_num_of_transactions >= 10:
+                break
 
     end_time = time.time()
     running_time = end_time - start_time
