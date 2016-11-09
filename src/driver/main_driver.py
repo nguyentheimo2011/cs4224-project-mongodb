@@ -113,7 +113,7 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
 
 def write_benchmarking_results_to_file(results):
     file_name = "benchmarking_results.txt"
-    with open(file_name, 'a') as result_file:
+    with open(file_name, 'w') as result_file:
         result_file.write('-----------------------------------------------------\n')
         result_file.write('Number of clients: {0}\n'.format(num_clients))
 
