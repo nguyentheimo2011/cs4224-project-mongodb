@@ -23,7 +23,7 @@ global output_file
 def make_sure_indexes(database):
     sys.stderr.write( "********* Ensuring indexes ***********\n" )
     sys.stderr.write( "*********** This may take a bit time if the indexes are not created ***********\n" )
-    database.warehouse.ensure_index('w_name')
+    database.warehouse.ensure_index('w_num')
 
     database.customer.ensure_index([('c_w_num', ASCENDING), ("c_d_num", ASCENDING), ("c_num", ASCENDING)])
     database.customer.ensure_index([('c_balance', DESCENDING)])
