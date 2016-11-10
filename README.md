@@ -16,6 +16,9 @@
 ./mongo 192.168.51.8:27017/test
 ```
 
+## Set up replica set on three nodes
+If you want to test on three nodes, refer to the file 'MongoDB-Replica-Set-Setup.pdf' for set-up instructions
+
 
 ## Data Preprocessing
 You need to pre-process the data before importing.
