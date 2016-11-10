@@ -104,7 +104,7 @@ def run_a_transaction_set_from_file(trans_file_path, database, running_results, 
             sys.stderr.write(text)
 
             # Break condition if taking too long
-            if total_num_of_transactions >= 5:
+            if total_num_of_transactions >= 500:
                 break
 
     end_time = time.time()

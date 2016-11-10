@@ -57,6 +57,9 @@ To benchmark the database, run the following command
 ```
 python src/driver/main_driver.py -c ${num_client} -p ${transaction_folder}
 ```
+In case you want to run the file on your own node, please change the IP address in function
+'run_multiple_transaction_sets_with_multiple_clients' in 'main_driver.py'.
 The benchmarking results are written in the file 'benchmarking_results.txt' inside 'cs4224-project-mongodb' folder.
 To simulate the n number of clients, we use n threads to execute transactions from n files which puts the burden to
 one computer. Therefore, the benchmarking results are significantly lower than benchmarking with n actual clients.
+Note: To shorten the benchmarking process, we only run the first 500 transactions from each transaction file
