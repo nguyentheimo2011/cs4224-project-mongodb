@@ -52,7 +52,11 @@ to copy 'mongodb' folder to put inside 'Documents/cs4224/'. The reason for this 
 ./load_data.sh /path/processed-data {database-address, default 192.168.51.8:27017}
 ```
 
-## Run transactions
+## Benchmark
+To benchmark the database, run the following command
 ```
 python src/driver/main_driver.py -c ${num_client} -p ${transaction_folder}
 ```
+The benchmarking results are written in the file 'benchmarking_results.txt' inside 'cs4224-project-mongodb' folder.
+To simulate the n number of clients, we use n threads to execute transactions from n files which puts the burden to
+one computer. Therefore, the benchmarking results are significantly lower than benchmarking with n actual clients.
