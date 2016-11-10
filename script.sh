@@ -4,14 +4,17 @@ rm results/*.txt
 # mkdir ../processed-data
 # ./pre_process.sh -p ../data/D8-data -d ../processed-data
 
-for i in 10 20 40
+for d in 40 #8 40
 do
-    echo "start loading data"
-    ./load_data.sh ../processed-data > results/$i-loadD8.txt
-    echo "done loading data"
-    echo "start running with $i clients"
-    python src/driver/main_driver.py -p ../data/D8-xact-revised-b -c $i -o results/$i-runD8.txt &> test.out
-    echo "done running with $i clients"
+    for i in 10 20 40
+    do
+        echo "start loading data"
+        ./load_data.sh ../processed-data > results/$i-loadD$d.txt
+        echo "done loading data"
+        echo "start running with $i clients"
+        python src/driver/main_driver.py -p ../data/D$d-xact-revised-b -c $i -o results/$i-runD$d.txt &> test.out
+        echo "done running with $i clients"
+    done
 done
 
 
