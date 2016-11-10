@@ -23,7 +23,7 @@ python src/preprocessing/prepare_customer_data.py -o /path/D8-data -d /path/pre-
 ```
 Or run the **pre_process.sh** script for pre-processing all collections:
 ```
-./pre_process.sh /path/D8-data /path/processed-data
+./pre_process.sh /path/D8(or40)-data /path/processed-data
 ```
 
 ## Import data to the database
@@ -40,5 +40,5 @@ Or run the **load_data.sh** script for pre-processing all data and saving to /pr
 
 ## Run transactions
 ```
-python src/driver/main_driver.py -c ${num_client} -p ${transaction folder}
+python src/driver/main_driver.py -c ${num_client} -p ${transaction_folder}
 ```
