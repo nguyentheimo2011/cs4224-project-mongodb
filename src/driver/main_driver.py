@@ -19,6 +19,7 @@ import top_balance_transaction
 
 global output_file
 
+
 def make_sure_indexes(database):
     sys.stderr.write( "********* Ensuring indexes ***********\n" )
     sys.stderr.write( "*********** This may take a bit time if the indexes are not created ***********\n" )
