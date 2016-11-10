@@ -1,7 +1,6 @@
 -----------------------------------------------------
-Number of clients: 2
-{'elapsed_time': 3.7832350730895996, 'thread_id': 0, 'throughput': 2.643240456066465, 'transactions': 10}
-{'elapsed_time': 0.10911107063293457, 'thread_id': 1, 'throughput': 91.6497285013493, 'transactions': 10}
-Min. Throughput: 2.64324045607 (trans/sec)
-Max. Throughput: 91.6497285013 (trans/sec)
-Avg. Throughput: 47.1464844787 (trans/sec)
+Number of clients: 1
+{'elapsed_time': 24.22937798500061, 'thread_id': 0, 'throughput': 0.2063610548770707, 'transactions': 5}
+Min. Throughput: 0.206361054877 (trans/sec)
+Max. Throughput: 0.206361054877 (trans/sec)
+Avg. Throughput: 0.206361054877 (trans/sec)
